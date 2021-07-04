@@ -66,4 +66,6 @@ Finally, we wrap `ie_body` in a function to convert an int, then to evaluate a C
 
     is_even = lambda n: from_church_bool(ie_body(to_church_num(n)))
 
-Decomposing this, we get the abomination of a one liner.
+Decomposing this, we get the abomination of a one liner:
+
+    is_even = lambda n: (lambda f: (lambda x: x(x))(lambda y: f(lambda a: y(y)(a))))(lambda f: lambda n: (lambda p: lambda a: lambda b: p(a)(b))((lambda m: lambda n: (lambda n: n(lambda _: (lambda t: lambda f: f()))((lambda t: lambda f: t)))((lambda m: lambda n: n(lambda n: lambda f: lambda x: n(lambda g: lambda h: h(g(f)))(lambda _: x)(lambda u: u))(m))(m)(n)))(n)(lambda f: lambda x: f(x)))((lambda n: n(lambda _: false)(true))(n))(lambda: f((lambda n: lambda f: lambda x: n(lambda g: lambda h: h(g(f)))(lambda _: x)(lambda u: u))((lambda n: lambda f: lambda x: n(lambda g: lambda h: h(g(f)))(lambda _: x)(lambda u: u))(n)))))((lambda f: (lambda x: x(x))(lambda y: f(lambda a: y(y)(a))))(lambda f: lambda n: (lambda f: lambda x: x) if n == 0 else (lambda n: lambda f: lambda x: f(n(f)(x)))(f(abs(n) - 1)))(n))(True)(False)
