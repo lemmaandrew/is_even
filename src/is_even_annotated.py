@@ -1,13 +1,15 @@
 """Some lambda calculus, building to is_even"""
 
+Y = lambda f: (lambda x: x(x))(lambda y: f(lambda a: y(y)(a)))
+compose = lambda f: lambda g: lambda x: f(g(x))
+
 succ  = lambda n: lambda f: lambda x: f(n(f)(x))
-pred  = lambda n: lambda f: lambda x: n(lambda g: lambda h: h(g(f)))(lambda _: x)(lambda u: u)
+pred  = lambda n: lambda f: lambda x: n(lambda g: lambda h: compose(h)(g)(f))(lambda _: x)(lambda u: u)
 minus = lambda m: lambda n: n(pred)(m)
 
 zero  = lambda f: lambda x: x
 one   = succ(zero)
 
-Y = lambda f: (lambda x: x(x))(lambda y: f(lambda a: y(y)(a)))
 
 from_church_num = lambda n: n(lambda x: x + 1)(0)
 to_church_num = Y(lambda f: lambda n: zero if n == 0 else succ(f(n - 1)))
@@ -22,7 +24,7 @@ and_ = lambda p: lambda q: p(q)(p)
 if_  = lambda p: lambda a: lambda b: p(a)(b)
 
 is_zero = lambda n: n(lambda _: false)(true)
-leq     = lambda m: lambda n: is_zero(minus(m)(n))
+leq     = lambda m: compose(is_zero)(minus(m))
 
 # is_even(zero) = Y(\f n -> if_(leq(n)(one))(is_zero(n))(f(pred(pred(n)))))
 # -> true(is_zero(n))(b)
@@ -49,7 +51,7 @@ leq     = lambda m: lambda n: is_zero(minus(m)(n))
 # SUCCESS
 eval_false = lambda t: lambda f: f()
 eval_is_zero = lambda n: n(lambda _: eval_false)(true)
-eval_leq = lambda m: lambda n: eval_is_zero(minus(m)(n))
+eval_leq  = lambda m: compose(eval_is_zero)(minus(m))
 eval_is_even = Y(lambda f: lambda n: if_(eval_leq(n)(one))(is_zero(n))(lambda: f(pred(pred(n)))))
 
 # whole thing in one lambda
