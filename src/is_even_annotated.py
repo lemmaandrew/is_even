@@ -1,3 +1,4 @@
+#!/bin/env python
 """Some lambda calculus, building to is_even"""
 
 Y = lambda f: (lambda x: x(x))(lambda y: f(lambda a: y(y)(a)))
