@@ -1,8 +1,6 @@
 #!/bin/env python
 """A file which contains only what is strictly necessary for completion of the is_even function"""
 
-# BEGIN
-
 # Y combinator, used for recursion
 Y = lambda f: (lambda x: x(x))(lambda y: f(lambda a: y(y)(a)))
 
